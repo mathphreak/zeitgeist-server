@@ -16,7 +16,10 @@ var Player = new Schema({
 var Game = new Schema({
   shortCode: String,
   state: String,
-  started: Date,
+  started: {
+    type: Date,
+    expires: '2h'
+  },
   players: [Player]
 });
 
