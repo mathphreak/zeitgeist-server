@@ -93,8 +93,10 @@ function GameHandler() {
         var specialChoices = [];
 
         for (var i = 1; i <= 5; i++) {
-          choices.push(req.body['choice' + i]);
-          specialChoices.push(req.body['choice' + i + 'Special']);
+          if (req.body['choice' + i] && req.body['choice' + i].length > 0) {
+            choices.push(req.body['choice' + i]);
+            specialChoices.push(req.body['choice' + i + 'Special']);
+          }
         }
 
         var players = game.players;
