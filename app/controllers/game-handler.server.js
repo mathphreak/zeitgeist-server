@@ -40,7 +40,7 @@ function GameHandler() {
       }
 
       if (result === null) {
-        res.status(404).end();
+        res.sendStatus(404).end();
         return;
       }
 
@@ -56,7 +56,7 @@ function GameHandler() {
         }
 
         if (result === null) {
-          res.status(404).end();
+          res.sendStatus(404).end();
           return;
         }
 
@@ -173,7 +173,7 @@ function GameHandler() {
         }
 
         if (game === null) {
-          res.status(404).end();
+          res.sendStatus(404).end();
           return;
         }
 
@@ -195,7 +195,7 @@ function GameHandler() {
         }
 
         if (game === null) {
-          res.status(404).end();
+          res.sendStatus(404).end();
           return;
         }
 
