@@ -32,11 +32,32 @@ function GameHandler() {
     });
   };
 
+  this.play = function (req, res) {
+    Games
+    .findCode(req.params.shortCode, function (err, result) {
+      if (err) {
+        throw err;
+      }
+
+      if (result === null) {
+        res.status(404).end();
+        return;
+      }
+
+      res.render('play');
+    });
+  };
+
   this.getGame = function (req, res) {
     Games
       .findCode(req.params.shortCode, function (err, result) {
         if (err) {
           throw err;
+        }
+
+        if (result === null) {
+          res.status(404).end();
+          return;
         }
 
         var players = result.players;
@@ -151,6 +172,11 @@ function GameHandler() {
           throw err;
         }
 
+        if (game === null) {
+          res.status(404).end();
+          return;
+        }
+
         var result = game.players.id(req.params.playerID);
 
         res.json({
@@ -166,6 +192,11 @@ function GameHandler() {
       .findCode(req.params.shortCode, function (err, game) {
         if (err) {
           throw err;
+        }
+
+        if (game === null) {
+          res.status(404).end();
+          return;
         }
 
         var result = game.players.id(req.params.playerID);

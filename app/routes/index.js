@@ -19,14 +19,10 @@ module.exports = function (app) {
     });
 
   app.route('/play/:shortCode')
-    .get(function (req, res) {
-      res.render('play');
-    });
+    .get(gameHandler.play);
 
   app.route('/play/:shortCode/:playerID')
-    .get(function (req, res) {
-      res.render('play');
-    });
+    .get(gameHandler.play);
 
   app.route('/game/new')
     .get(gameHandler.newGame);
