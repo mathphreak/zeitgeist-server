@@ -22,16 +22,31 @@ function savePlayer(shortCode, playerID, data) {
   });
 }
 
+function getPlayer(shortCode, playerID) {
+  return $.ajax({
+    method: 'GET',
+    dataType: 'json',
+    url: API_BASE + '/game/' + shortCode + '/players/' + playerID
+  });
+}
+
 function handlePlayerInfo(data) {
   var player = data.self;
-  if (player.name === 'waiting...') {
-    $('#static-player-name').hide();
-    $('#player-name').show();
-    $('#pick-name form button').show();
-  } else {
-    $('#player-name').hide();
-    $('#static-player-name').show().text(player.name);
-    $('#pick-name form button').hide();
+  var state = data.state;
+  if (state) {
+    $('body > .container > div:not(#' + state + ')').hide();
+    $('#' + state).show();
+  }
+  if ($('#lobby').is(':visible')) {
+    if (player.name === 'waiting...') {
+      $('#static-player-name').hide();
+      $('#player-name').show();
+      $('#lobby form button').show();
+    } else {
+      $('#player-name').hide();
+      $('#static-player-name').show().text(player.name);
+      $('#lobby form button').hide();
+    }
   }
 }
 
@@ -48,13 +63,11 @@ $(function () {
         window.location.href += '/' + data.id;
       });
   } else {
-    $('#connecting').hide();
-    $('#pick-name').show();
-    savePlayer(shortCode, playerID, {})
+    getPlayer(shortCode, playerID)
       .then(handlePlayerInfo);
   }
 
-  $('#pick-name form').on('submit', function () {
+  $('#lobby form').on('submit', function () {
     var name = $('#player-name').val();
     savePlayer(shortCode, playerID, {
       name: name
@@ -70,4 +83,9 @@ $(function () {
     $('#ready').text(ready ? 'Not Ready' : 'Ready');
     return false;
   });
+
+  setInterval(function () {
+    getPlayer(shortCode, playerID)
+      .then(handlePlayerInfo);
+  }, 2000);
 });

@@ -32,12 +32,15 @@ module.exports = function (app) {
     .get(gameHandler.newGame);
 
   app.route('/game/:shortCode')
-    .get(gameHandler.getGame);
+    .get(gameHandler.getGame)
+    .post(bodyParser.urlencoded({extended: false}),
+      gameHandler.editGame);
 
   app.route('/game/:shortCode/players/new')
     .post(gameHandler.newPlayer);
 
   app.route('/game/:shortCode/players/:playerID')
+    .get(gameHandler.getPlayer)
     .post(bodyParser.urlencoded({extended: false}),
       gameHandler.editPlayer);
 };

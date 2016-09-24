@@ -12,7 +12,7 @@ function GameHandler() {
       }
       var newGame = {
         shortCode: shortCode,
-        state: 'connect',
+        state: 'lobby',
         started: new Date(),
         players: []
       };
@@ -53,6 +53,31 @@ function GameHandler() {
       });
   };
 
+  this.editGame = function (req, res) {
+    Games
+      .findCode(req.params.shortCode, function (err, game) {
+        if (err) {
+          throw err;
+        }
+
+        var result = game;
+        if (req.body.state) {
+          result.state = req.body.state;
+        }
+
+        game.save(function (err) {
+          if (err) {
+            throw err;
+          }
+
+          res.json({
+            message: 'game-edit-ok',
+            self: result
+          });
+        });
+      });
+  };
+
   this.newPlayer = function (req, res) {
     Games
       .findCode(req.params.shortCode, function (err, game) {
@@ -76,6 +101,23 @@ function GameHandler() {
             message: 'new-player-id',
             id: result
           });
+        });
+      });
+  };
+
+  this.getPlayer = function (req, res) {
+    Games
+      .findCode(req.params.shortCode, function (err, game) {
+        if (err) {
+          throw err;
+        }
+
+        var result = game.players.id(req.params.playerID);
+
+        res.json({
+          message: 'player',
+          self: result,
+          state: game.state
         });
       });
   };

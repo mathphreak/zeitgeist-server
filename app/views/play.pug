@@ -18,7 +18,7 @@ html(lang='en')
     .container
       #connecting
         h2 Connecting to EWW...
-      #pick-name(hidden)
+      #lobby(hidden)
         h2 Enter Name
         form#name-form.form-inline
           .form-group
@@ -27,6 +27,8 @@ html(lang='en')
             input#player-name.form-control(type='text', placeholder='Name')
           button.btn.btn-default(type='submit') Submit
         button#ready.btn.btn-lg.btn-primary(type='button') Ready
+      #waiting
+        h2 Wait for a decision!
 
     // jQuery
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
