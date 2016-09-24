@@ -36,6 +36,9 @@ module.exports = function (app) {
     .post(bodyParser.urlencoded({extended: false}),
       gameHandler.editGame);
 
+  app.route('/game/:shortCode/choice')
+    .post(bodyParser.json(), gameHandler.offerChoice);
+
   app.route('/game/:shortCode/players/new')
     .post(gameHandler.newPlayer);
 

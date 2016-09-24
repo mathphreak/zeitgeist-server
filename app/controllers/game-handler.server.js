@@ -78,6 +78,38 @@ function GameHandler() {
       });
   };
 
+  this.offerChoice = function (req, res) {
+    Games
+      .findCode(req.params.shortCode, function (err, game) {
+        if (err) {
+          throw err;
+        }
+
+        game.state = 'choosing';
+
+        console.log(req.body);
+
+        var players = game.players;
+        players.forEach(function (p) {
+          p.ready = false;
+          p.choiceLabel = req.body.title;
+          for (var i = 1; i <= 5; i++) {
+            p.choices.push(req.body['choice' + i + (p.special ? 'Special' : '')]);
+          }
+        });
+
+        game.save(function (err) {
+          if (err) {
+            throw err;
+          }
+
+          res.json({
+            message: 'choice-ok'
+          });
+        });
+      });
+  };
+
   this.newPlayer = function (req, res) {
     Games
       .findCode(req.params.shortCode, function (err, game) {
@@ -135,6 +167,9 @@ function GameHandler() {
         }
         if (req.body.ready) {
           result.ready = req.body.ready;
+        }
+        if (req.body.chosenIndex) {
+          result.chosenIndex = req.body.chosenIndex;
         }
 
         game.save(function (err) {

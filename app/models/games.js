@@ -6,7 +6,10 @@ var Schema = mongoose.Schema;
 
 var Player = new Schema({
   name: String,
-  ready: Boolean
+  ready: Boolean,
+  choiceLabel: String,
+  choices: [String],
+  chosenIndex: Number
 });
 
 var Game = new Schema({

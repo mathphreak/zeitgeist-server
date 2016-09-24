@@ -38,6 +38,7 @@ function handlePlayerInfo(data) {
     $('#' + state).show();
   }
   if ($('#lobby').is(':visible')) {
+    $('#ready').text(player.ready ? 'Not Ready' : 'Ready');
     if (player.name === 'waiting...') {
       $('#static-player-name').hide();
       $('#player-name').show();
@@ -47,6 +48,20 @@ function handlePlayerInfo(data) {
       $('#static-player-name').show().text(player.name);
       $('#lobby form button').hide();
     }
+  } else if ($('#choosing').is(':visible')) {
+    $('.choice-label').text(player.choiceLabel);
+
+    var sampleButton = $('#choosing .btn').get(0).outerHTML;
+    $('#choosing .choices').empty();
+    player.choices.forEach(function (c, i) {
+      var el = $(sampleButton).text(c).data('index', i);
+      if (i === player.chosenIndex) {
+        el.addClass('btn-primary');
+      } else {
+        el.removeClass('btn-primary');
+      }
+      $('#choosing .choices').append(el);
+    });
   }
 }
 
@@ -79,9 +94,16 @@ $(function () {
     var ready = $('#ready').text() === 'Ready';
     savePlayer(shortCode, playerID, {
       ready: ready
-    });
-    $('#ready').text(ready ? 'Not Ready' : 'Ready');
+    }).then(handlePlayerInfo);
     return false;
+  });
+
+  $(window.document).on('click', '#choosing .btn', function () {
+    var index = $(this).data('index');
+    savePlayer(shortCode, playerID, {
+      ready: true,
+      chosenIndex: index
+    }).then(handlePlayerInfo);
   });
 
   setInterval(function () {
