@@ -60,7 +60,10 @@ function GameHandler() {
           throw err;
         }
 
-        game.players.unshift({name: 'waiting...'});
+        game.players.unshift({
+          name: 'waiting...',
+          ready: false
+        });
 
         var result = game.players[0]._id;
 
@@ -98,7 +101,7 @@ function GameHandler() {
           }
 
           res.json({
-            message: 'ok',
+            message: 'player-edit-ok',
             self: result
           });
         });

@@ -12,7 +12,7 @@ module.exports = function (app) {
       res.send('Hello World!');
     });
 
-  app.route(/^\/(\d{4})$/)
+  app.route(/^\/(\d{1,4})$/)
     .get(function (req, res) {
       var shortCode = req.params[0];
       res.redirect('/play/' + shortCode);
