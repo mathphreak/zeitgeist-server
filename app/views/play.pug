@@ -5,6 +5,9 @@ html(lang='en')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
 
+    // Font Awesome
+    script(src='https://use.fontawesome.com/4b47a4f15e.js')
+
     title Play EWW
 
     // Bootstrap
@@ -13,6 +16,10 @@ html(lang='en')
     style.
       .form-group label {
         margin-right: 1em;
+      }
+
+      #ready i {
+        margin-right: 0.5em;
       }
   body
     .container
@@ -26,7 +33,9 @@ html(lang='en')
             p#static-player-name.form-control-static(hidden)
             input#player-name.form-control(type='text', placeholder='Name')
           button.btn.btn-default(type='submit') Submit
-        button#ready.btn.btn-lg.btn-primary(type='button') Ready
+        button#ready.btn.btn-lg.btn-primary(type='button')
+          i.fa.fa-times
+          span Not Ready
       #waiting(hidden)
         h2 Wait for a decision!
       #choosing(hidden)

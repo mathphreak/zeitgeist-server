@@ -38,7 +38,11 @@ function handlePlayerInfo(data) {
     $('#' + state).show();
   }
   if ($('#lobby').is(':visible')) {
-    $('#ready').text(player.ready ? 'Not Ready' : 'Ready');
+    $('#ready span').text(player.ready ? 'Ready' : 'Not Ready');
+    $('#ready i').toggleClass('fa-times', !player.ready);
+    $('#ready i').toggleClass('fa-check', player.ready);
+    $('#ready').toggleClass('btn-default', !player.ready);
+    $('#ready').toggleClass('btn-primary', player.ready);
     if (player.name === 'waiting...') {
       $('#static-player-name').hide();
       $('#player-name').show();
@@ -51,7 +55,7 @@ function handlePlayerInfo(data) {
   } else if ($('#choosing').is(':visible')) {
     $('.choice-label').text(player.choiceLabel);
 
-    var sampleButton = $('#choosing .btn').get(0).outerHTML;
+    var sampleButton = '<button class="btn btn-default" type="button"></button>';
     $('#choosing .choices').empty();
     player.choices.forEach(function (c, i) {
       var el = $(sampleButton).text(c).data('index', i);
@@ -91,7 +95,7 @@ $(function () {
   });
 
   $('#ready').on('click', function () {
-    var ready = $('#ready').text() === 'Ready';
+    var ready = $('#ready span').text() === 'Not Ready';
     savePlayer(shortCode, playerID, {
       ready: ready
     }).then(handlePlayerInfo);
