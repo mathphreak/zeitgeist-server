@@ -5,6 +5,8 @@ var $ = window.$;
 
 var API_BASE = 'http://' + window.location.host;
 
+var SHUFFLE = [];
+
 function makeNewPlayer(shortCode) {
   return $.ajax({
     method: 'POST',
@@ -52,11 +54,16 @@ function handlePlayerInfo(data) {
       $('#static-player-name').show().text(player.name);
       $('#lobby form button').hide();
     }
-  } else if ($('#choosing').is(':visible')) {
+  }
+  if ($('#choosing').is(':visible')) {
+    if (SHUFFLE.length === 0) {
+      SHUFFLE = window._.shuffle([0, 1, 2, 3, 4]);
+    }
     $('.choice-label').text(player.choiceLabel);
 
     var sampleButton = '<button class="btn btn-default" type="button"></button>';
     $('#choosing .choices').empty();
+    var choices = [undefined, undefined, undefined, undefined, undefined];
     player.choices.forEach(function (c, i) {
       var el = $(sampleButton).text(c).data('index', i);
       if (i === player.chosenIndex) {
@@ -64,8 +71,11 @@ function handlePlayerInfo(data) {
       } else {
         el.removeClass('btn-primary');
       }
-      $('#choosing .choices').append(el);
+      choices[SHUFFLE[i]] = el;
     });
+    $('#choosing .choices').append(choices[0], choices[1], choices[2], choices[3], choices[4]);
+  } else {
+    SHUFFLE = [];
   }
 }
 

@@ -89,13 +89,20 @@ function GameHandler() {
 
         console.log(req.body);
 
+        var choices = [];
+        var specialChoices = [];
+
+        for (var i = 1; i <= 5; i++) {
+          choices.push(req.body['choice' + i]);
+          specialChoices.push(req.body['choice' + i + 'Special']);
+        }
+
         var players = game.players;
         players.forEach(function (p) {
           p.ready = false;
           p.choiceLabel = req.body.title;
-          for (var i = 1; i <= 5; i++) {
-            p.choices.push(req.body['choice' + i + (p.special ? 'Special' : '')]);
-          }
+          p.choices = p.special ? specialChoices : choices;
+          p.chosenIndex = -1;
         });
 
         game.save(function (err) {
