@@ -14,11 +14,7 @@ function GameHandler() {
         shortCode: shortCode,
         state: 'connect',
         started: new Date(),
-        players: [
-          {ready: false},
-          {ready: false},
-          {ready: true}
-        ]
+        players: []
       };
       Games
         .create(newGame, function (err) {
@@ -43,15 +39,62 @@ function GameHandler() {
           throw err;
         }
 
-        console.log(result);
-
         var players = result.players;
         var totalPlayers = players.length;
         var readyPlayers = players.filter(p => p.ready).length;
 
         res.json({
           message: 'game-heartbeat',
+          players: players,
           ready: readyPlayers + '/' + totalPlayers
+        });
+      });
+  };
+
+  this.newPlayer = function (req, res) {
+    Games
+      .findCode(req.params.shortCode, function (err, game) {
+        if (err) {
+          throw err;
+        }
+
+        game.players.unshift({name: 'waiting...'});
+
+        var result = game.players[0]._id;
+
+        game.save(function (err) {
+          if (err) {
+            throw err;
+          }
+
+          res.json({
+            message: 'new-player-id',
+            id: result
+          });
+        });
+      });
+  };
+
+  this.editPlayer = function (req, res) {
+    Games
+      .findCode(req.params.shortCode, function (err, game) {
+        if (err) {
+          throw err;
+        }
+
+        var result = game.players.id(req.params.playerID);
+        if (req.body.name) {
+          result.name = req.body.name;
+        }
+
+        game.save(function (err) {
+          if (err) {
+            throw err;
+          }
+
+          res.json({
+            message: 'ok'
+          });
         });
       });
   };

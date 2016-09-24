@@ -4,11 +4,16 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
+var Player = new Schema({
+  name: String,
+  ready: Boolean
+});
+
 var Game = new Schema({
   shortCode: String,
   state: String,
   started: Date,
-  players: Array
+  players: [Player]
 });
 
 Game.statics.findCode = function (shortCode, cb) {
