@@ -46,7 +46,9 @@ function GameHandler() {
         res.json({
           message: 'game-heartbeat',
           players: players,
-          ready: readyPlayers + '/' + totalPlayers
+          playerCount: players.length,
+          ready: readyPlayers + '/' + totalPlayers,
+          allPlayersReady: readyPlayers === totalPlayers
         });
       });
   };
@@ -96,7 +98,8 @@ function GameHandler() {
           }
 
           res.json({
-            message: 'ok'
+            message: 'ok',
+            self: result
           });
         });
       });

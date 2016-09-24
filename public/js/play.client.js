@@ -14,12 +14,25 @@ function makeNewPlayer(shortCode) {
 }
 
 function savePlayer(shortCode, playerID, data) {
-  $.ajax({
+  return $.ajax({
     method: 'POST',
     dataType: 'json',
     data: data,
     url: API_BASE + '/game/' + shortCode + '/players/' + playerID
   });
+}
+
+function handlePlayerInfo(data) {
+  var player = data.self;
+  if (player.name === 'waiting...') {
+    $('#static-player-name').hide();
+    $('#player-name').show();
+    $('#pick-name form button').show();
+  } else {
+    $('#player-name').hide();
+    $('#static-player-name').show().text(player.name);
+    $('#pick-name form button').hide();
+  }
 }
 
 $(function () {
@@ -37,20 +50,24 @@ $(function () {
   } else {
     $('#connecting').hide();
     $('#pick-name').show();
+    savePlayer(shortCode, playerID, {})
+      .then(handlePlayerInfo);
   }
 
   $('#pick-name form').on('submit', function () {
     var name = $('#player-name').val();
     savePlayer(shortCode, playerID, {
       name: name
-    });
+    }).then(handlePlayerInfo);
     return false;
   });
 
   $('#ready').on('click', function () {
+    var ready = $('#ready').text() === 'Ready';
     savePlayer(shortCode, playerID, {
-      ready: true
+      ready: ready
     });
+    $('#ready').text(ready ? 'Not Ready' : 'Ready');
     return false;
   });
 });
