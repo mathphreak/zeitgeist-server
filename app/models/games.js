@@ -10,7 +10,8 @@ var Player = new Schema({
   choiceLabel: String,
   choices: [String],
   chosenIndex: Number,
-  special: Boolean
+  special: Boolean,
+  role: String
 });
 
 var Game = new Schema({

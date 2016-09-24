@@ -182,6 +182,9 @@ function GameHandler() {
         if (req.body.special) {
           result.special = req.body.special;
         }
+        if (req.body.role) {
+          result.role = req.body.role;
+        }
 
         game.save(function (err) {
           if (err) {
