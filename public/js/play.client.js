@@ -39,6 +39,11 @@ function handlePlayerInfo(data) {
     $('body > .container > div:not(#' + state + ')').hide();
     $('#' + state).show();
   }
+  if (player.role) {
+    $('#role').text(player.role);
+  } else if (player.special) {
+    $('#role').text('special');
+  }
   if ($('#lobby').is(':visible')) {
     $('#ready span').text(player.ready ? 'Ready' : 'Not Ready');
     $('#ready i').toggleClass('fa-times', !player.ready);

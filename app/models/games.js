@@ -9,7 +9,8 @@ var Player = new Schema({
   ready: Boolean,
   choiceLabel: String,
   choices: [String],
-  chosenIndex: Number
+  chosenIndex: Number,
+  special: Boolean
 });
 
 var Game = new Schema({

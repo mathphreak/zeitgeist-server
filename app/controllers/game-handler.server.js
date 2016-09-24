@@ -178,6 +178,10 @@ function GameHandler() {
         if (req.body.chosenIndex) {
           result.chosenIndex = req.body.chosenIndex;
         }
+        // HORRIBLE SECURITY ALERT
+        if (req.body.special) {
+          result.special = req.body.special;
+        }
 
         game.save(function (err) {
           if (err) {
