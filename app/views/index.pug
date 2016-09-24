@@ -8,51 +8,30 @@ html(lang='en')
     // Font Awesome
     script(src='https://use.fontawesome.com/4b47a4f15e.js')
 
-    title Play EWW
+    title EWW: Everything Went Wrong
 
     // Bootstrap
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
-
-    style.
-      .form-group label {
-        margin-right: 1em;
-      }
-
-      #ready i {
-        margin-right: 0.5em;
-      }
-
-      .choices {
-        width: 100%;
-      }
   body
     nav.navbar.navbar-default
       .container-fluid
         .navbar-header
           a.navbar-brand EWW
-        p.navbar-text
-          ="You are "
-          span#role waiting
     .container
-      #connecting
-        h2 Connecting to EWW...
-      #lobby(hidden)
-        h2 Enter Name
-        form#name-form.form-inline
+      #connection
+        h2 Enter Join URL
+        form#url-form.form-inline
           .form-group
-            label(for='player-name') Name
-            p#static-player-name.form-control-static(hidden)
-            input#player-name.form-control(type='text', placeholder='Name')
+            label(for='url')
+              | http://
+              = host
+              | /
+            input#url.form-control(type='text', placeholder='9302')
           button.btn.btn-default(type='submit') Submit
-        button#ready.btn.btn-lg.btn-primary(type='button')
-          i.fa.fa-times
-          span Not Ready
-      #waiting(hidden)
-        h2 Wait for a decision!
-      #choosing(hidden)
-        h2.choice-label Make your decision!
-        .choices.btn-group-vertical(role='group')
-          button.btn.btn-default(type='button') Button
+          if newTabBox
+            .checkbox: label
+              input#newtabs(type='checkbox',checked)
+              |  Open in three new tabs
 
     // jQuery
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
@@ -60,5 +39,5 @@ html(lang='en')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
     // Lodash
     script(src='https://cdn.jsdelivr.net/lodash/4.16.0/lodash.min.js')
-    // JS for play
-    script(src='/public/js/play.js')
+    // JS for index
+    script(src='/public/js/index.js')
