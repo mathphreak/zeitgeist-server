@@ -86,6 +86,9 @@ function GameHandler() {
         if (req.body.name) {
           result.name = req.body.name;
         }
+        if (req.body.ready) {
+          result.ready = req.body.ready;
+        }
 
         game.save(function (err) {
           if (err) {
