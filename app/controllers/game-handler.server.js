@@ -26,7 +26,7 @@ function GameHandler() {
           res.json({
             message: 'game-url',
             shortCode: String(shortCode),
-            url: 'http://' + req.hostname + '/play/' + shortCode
+            url: 'http://' + req.hostname + '/' + shortCode
           });
         });
     });
