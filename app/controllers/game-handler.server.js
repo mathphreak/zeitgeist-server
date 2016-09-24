@@ -87,8 +87,6 @@ function GameHandler() {
 
         game.state = 'choosing';
 
-        console.log(req.body);
-
         var choices = [];
         var specialChoices = [];
 
