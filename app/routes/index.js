@@ -12,10 +12,10 @@ module.exports = function (app) {
       // Complex debugging switches are difficult.
       // Laziness is easy, and in the spirit of a game jam.
       var now = new Date();
-      var endOfGameJam = new Date('2016-09-25T17:00:00-05:00');
+      var almostEndOfGameJam = new Date('2016-09-25T16:30:00-05:00');
       res.render('index', {
         host: req.hostname,
-        newTabBox: now.getTime() < endOfGameJam.getTime()
+        newTabBox: now.getTime() < almostEndOfGameJam.getTime()
       });
     });
 
