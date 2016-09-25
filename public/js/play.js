@@ -41,7 +41,10 @@ function handlePlayerInfo(data) {
     $('#role').text(player.role);
   }
   if (player.color) {
-    $('#color').text(player.color).css('color', player.color);
+    var textColor = window.chroma(player.color).luminance(0.2).css();
+    var backgroundColor = window.chroma(player.color).luminance(0.8).css();
+    $('#color').text(player.color).css('color', textColor);
+    $('body').css('background-color', backgroundColor);
   }
   if (player.saboteur) {
     $('#saboteur').text('are');
