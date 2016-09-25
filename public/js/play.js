@@ -42,7 +42,7 @@ function handlePlayerInfo(data) {
   }
   if (player.color) {
     var textColor = window.chroma(player.color).luminance(0.2).css();
-    var backgroundColor = window.chroma(player.color).luminance(0.8).css();
+    var backgroundColor = window.chroma(player.color).luminance(0.7).css();
     $('#color').text(player.color).css('color', textColor);
     $('body').css('background-color', backgroundColor);
   }
