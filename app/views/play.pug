@@ -25,6 +25,12 @@ html(lang='en')
       .choices {
         width: 100%;
       }
+
+      #color-box {
+        content: '';
+        display: inline-block;
+        width: 10px;
+      }
   body
     .container
       #connecting
@@ -49,7 +55,8 @@ html(lang='en')
             strong#role ROLE
             = " and you "
             strong#saboteur MIGHT BE
-            = " the saboteur."
+            = " the saboteur. You are "
+            strong#color A COLOR
         section#room
           h2 Room Information
           p#infoHere YOU ARE HERE

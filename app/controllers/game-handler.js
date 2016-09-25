@@ -199,7 +199,9 @@ function GameHandler() {
         }
 
         var result = game.players.id(req.params.playerID);
-        var legitParams = ['name', 'ready', 'choice'];
+        // color isn't really legit, but there's no security issue from
+        // people claiming to be the wrong color
+        var legitParams = ['name', 'ready', 'choice', 'color'];
 
         legitParams.forEach(function (p) {
           if (req.body[p]) {
@@ -214,13 +216,15 @@ function GameHandler() {
 
         // Horrible data interchange format alert
         if (req.body.saboteur) {
-          console.warn('SABOTEUR:', req.body.saboteur);
           result.saboteur = (req.body.saboteur === 'true' || req.body.saboteur === true);
         }
 
         game.save(function (err) {
           if (err) {
-            throw err;
+            console.error(err);
+            res.status(500).json({
+              message: 'not-ok'
+            });
           }
 
           res.json({

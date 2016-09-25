@@ -12,7 +12,8 @@ var Player = new Schema({
   action: String,
   choice: String,
   saboteur: Boolean,
-  role: String
+  role: String,
+  color: String
 });
 
 var Game = new Schema({

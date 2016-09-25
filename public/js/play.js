@@ -40,6 +40,9 @@ function handlePlayerInfo(data) {
   if (player.role) {
     $('#role').text(player.role);
   }
+  if (player.color) {
+    $('#color').text(player.color).attr('data-color', player.color);
+  }
   if (player.saboteur) {
     $('#saboteur').text('are');
   } else {
