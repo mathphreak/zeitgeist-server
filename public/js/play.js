@@ -71,7 +71,7 @@ function handlePlayerInfo(data) {
       var el = $(sampleButton).text(c);
       $('#neighbors').append(el);
     });
-    $('#playing .btn').forEach(function () {
+    $('#playing .btn').each(function () {
       if ($(this).text() === player.choice) {
         $(this).addClass('btn-primary');
       }
