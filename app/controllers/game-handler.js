@@ -255,8 +255,8 @@ function GameHandler() {
         }
 
         // Horrible data interchange format alert
-        if (req.body.saboteur) {
-          result.saboteur = (req.body.saboteur === 'true' || req.body.saboteur === true);
+        if (req.body.messmaker) {
+          result.messmaker = (req.body.messmaker === 'true' || req.body.messmaker === true);
         }
 
         game.save(function (err) {

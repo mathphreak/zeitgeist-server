@@ -46,10 +46,10 @@ function handlePlayerInfo(data) {
     $('#color').text(player.color).css('color', textColor);
     $('body').css('background-color', backgroundColor);
   }
-  if (player.saboteur) {
-    $('#saboteur').text('are');
+  if (player.messmaker) {
+    $('#messmaker').text('are');
   } else {
-    $('#saboteur').text('are not');
+    $('#messmaker').text('are not');
   }
   if ($('#lobby').is(':visible')) {
     $('#ready span').text(player.ready ? 'Ready' : 'Not Ready');

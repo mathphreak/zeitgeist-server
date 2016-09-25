@@ -11,7 +11,7 @@ var Player = new Schema({
   neighbors: [String],
   action: String,
   choice: String,
-  saboteur: Boolean,
+  messmaker: Boolean,
   role: String,
   color: String
 });
