@@ -200,10 +200,6 @@ function GameHandler() {
 
         var result = game.players.id(req.params.playerID);
         var legitParams = ['name', 'ready', 'choice'];
-        var unsafeParams = [
-          'saboteur',
-          'role'
-        ];
 
         legitParams.forEach(function (p) {
           if (req.body[p]) {
@@ -212,14 +208,13 @@ function GameHandler() {
         });
 
         // HORRIBLE SECURITY ALERT
-        unsafeParams.forEach(function (p) {
-          if (req.body[p]) {
-            result[p] = req.body[p];
-          }
-        });
+        if (req.body.role) {
+          result.role = req.body.role;
+        }
 
         // Horrible data interchange format alert
         if (req.body.saboteur) {
+          console.warn('SABOTEUR:', req.body.saboteur);
           result.saboteur = (req.body.saboteur === 'true' || req.body.saboteur === true);
         }
 

@@ -69,12 +69,12 @@ function handlePlayerInfo(data) {
     $('#neighbors').empty();
     player.neighbors.forEach(function (c) {
       var el = $(sampleButton).text(c);
-      if (c === player.choice) {
-        el.addClass('btn-primary');
-      } else {
-        el.removeClass('btn-primary');
-      }
       $('#neighbors').append(el);
+    });
+    $('#playing .btn').forEach(function () {
+      if ($(this).text() === player.choice) {
+        $(this).addClass('btn-primary');
+      }
     });
   }
 }
