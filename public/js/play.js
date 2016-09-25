@@ -67,7 +67,7 @@ function handlePlayerInfo(data) {
 
     var sampleButton = '<button class="btn btn-default" type="button"></button>';
     $('#neighbors').empty();
-    player.choices.forEach(function (c) {
+    player.neighbors.forEach(function (c) {
       var el = $(sampleButton).text(c);
       if (c === player.choice) {
         el.addClass('btn-primary');

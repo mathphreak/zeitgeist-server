@@ -220,7 +220,7 @@ function GameHandler() {
 
         // Horrible data interchange format alert
         if (req.body.saboteur) {
-          result.saboteur = req.body.saboteur === 'true';
+          result.saboteur = (req.body.saboteur === 'true' || req.body.saboteur === true);
         }
 
         game.save(function (err) {
