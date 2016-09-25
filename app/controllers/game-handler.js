@@ -6,8 +6,8 @@ function GameHandler() {
   this.newGame = function (req, res) {
     Games.genCode(function (err, shortCode) {
       if (err) {
-        console.error('Error:', err);
-        res.status(500).send(err);
+        console.error('Error in GameHandler#newGame:', err);
+        res.sendStatus(500);
         return;
       }
       var newGame = {
@@ -19,8 +19,8 @@ function GameHandler() {
       Games
         .create(newGame, function (err) {
           if (err) {
-            console.error('Error:', err);
-            res.status(500).send(err);
+            console.error('Other error in GameHandler#newGame:', err);
+            res.sendStatus(500);
             return;
           }
           res.json({
@@ -36,7 +36,9 @@ function GameHandler() {
     Games
     .findCode(req.params.shortCode, function (err, result) {
       if (err) {
-        throw err;
+        console.error('Error in GameHandler#play', err);
+        res.sendStatus(500);
+        return;
       }
 
       if (result === null) {
@@ -52,11 +54,17 @@ function GameHandler() {
     Games
       .findCode(req.params.shortCode, function (err, result) {
         if (err) {
-          throw err;
+          console.error('Error in GameHandler#getGame', err);
+          res.status(500).json({
+            message: 'error'
+          });
+          return;
         }
 
         if (result === null) {
-          res.sendStatus(404).end();
+          res.send(404).json({
+            message: 'error'
+          });
           return;
         }
 
@@ -78,7 +86,11 @@ function GameHandler() {
     Games
       .findCode(req.params.shortCode, function (err, game) {
         if (err) {
-          throw err;
+          console.error('Error in GameHandler#editGame', err);
+          res.status(500).json({
+            message: 'error'
+          });
+          return;
         }
 
         var result = game;
@@ -88,7 +100,11 @@ function GameHandler() {
 
         game.save(function (err) {
           if (err) {
-            throw err;
+            console.error('Other error in GameHandler#editGame', err);
+            res.status(500).json({
+              message: 'error'
+            });
+            return;
           }
 
           res.json({
@@ -103,7 +119,11 @@ function GameHandler() {
     Games
       .findCode(req.params.shortCode, function (err, game) {
         if (err) {
-          throw err;
+          console.error('Error in GameHandler#offerChoice', err);
+          res.status(500).json({
+            message: 'error'
+          });
+          return;
         }
 
         game.state = 'playing';
@@ -127,7 +147,11 @@ function GameHandler() {
 
         game.save(function (err) {
           if (err) {
-            throw err;
+            console.error('Other error in GameHandler#offerChoice', err);
+            res.status(500).json({
+              message: 'error'
+            });
+            return;
           }
 
           res.json({
@@ -141,7 +165,11 @@ function GameHandler() {
     Games
       .findCode(req.params.shortCode, function (err, game) {
         if (err) {
-          throw err;
+          console.error('Error in GameHandler#newPlayer', err);
+          res.status(500).json({
+            message: 'error'
+          });
+          return;
         }
 
         game.players.push({
@@ -153,7 +181,11 @@ function GameHandler() {
 
         game.save(function (err) {
           if (err) {
-            throw err;
+            console.error('Error in GameHandler#newPlayer', err);
+            res.status(500).json({
+              message: 'error'
+            });
+            return;
           }
 
           res.json({
@@ -168,7 +200,11 @@ function GameHandler() {
     Games
       .findCode(req.params.shortCode, function (err, game) {
         if (err) {
-          throw err;
+          console.error('Error in GameHandler#getPlayer', err);
+          res.status(500).json({
+            message: 'error'
+          });
+          return;
         }
 
         if (game === null) {
@@ -190,7 +226,11 @@ function GameHandler() {
     Games
       .findCode(req.params.shortCode, function (err, game) {
         if (err) {
-          throw err;
+          console.error('Error in GameHandler#editPlayer', err);
+          res.status(500).json({
+            message: 'error'
+          });
+          return;
         }
 
         if (game === null) {
@@ -221,10 +261,11 @@ function GameHandler() {
 
         game.save(function (err) {
           if (err) {
-            console.error(err);
+            console.error('Other error in GameHandler#editPlayer', err);
             res.status(500).json({
-              message: 'not-ok'
+              message: 'error'
             });
+            return;
           }
 
           res.json({
