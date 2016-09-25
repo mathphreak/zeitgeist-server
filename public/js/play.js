@@ -74,6 +74,8 @@ function handlePlayerInfo(data) {
     $('#playing .btn').each(function () {
       if ($(this).text() === player.choice) {
         $(this).addClass('btn-primary');
+      } else {
+        $(this).removeClass('btn-primary');
       }
     });
   }
