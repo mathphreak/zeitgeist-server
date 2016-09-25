@@ -7,10 +7,11 @@ var Schema = mongoose.Schema;
 var Player = new Schema({
   name: String,
   ready: Boolean,
-  choiceLabel: String,
-  choices: [String],
-  chosenIndex: Number,
-  special: Boolean,
+  infoHere: String,
+  neighbors: [String],
+  action: String,
+  choice: String,
+  saboteur: Boolean,
   role: String
 });
 

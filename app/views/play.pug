@@ -26,13 +26,6 @@ html(lang='en')
         width: 100%;
       }
   body
-    nav.navbar.navbar-default
-      .container-fluid
-        .navbar-header
-          a.navbar-brand EWW
-        p.navbar-text
-          ="You are the "
-          strong#role waiting
     .container
       #connecting
         h2 Connecting to EWW...
@@ -44,15 +37,31 @@ html(lang='en')
             p#static-player-name.form-control-static(hidden)
             input#player-name.form-control(type='text', placeholder='Name')
           button.btn.btn-default(type='submit') Submit
+        = "You are currently "
         button#ready.btn.btn-lg.btn-primary(type='button')
           i.fa.fa-times
           span Not Ready
-      #waiting(hidden)
-        h2 Wait for a decision!
-      #choosing(hidden)
-        h2.choice-label Make your decision!
-        .choices.btn-group-vertical(role='group')
-          button.btn.btn-default(type='button') Button
+      #playing(hidden)
+        section#info
+          h2 Your Information
+          p
+            = "You are the "
+            strong#role ROLE
+            = " and you "
+            strong#saboteur MIGHT BE
+            = " the saboteur."
+        section#room
+          h2 Room Information
+          p#infoHere YOU ARE HERE
+          h2 Room Actions
+          .choices.btn-group-vertical(role='group')
+            button#action.btn.btn-default(type='button') DO THE THING
+        section#movement
+          h2 Neighboring Rooms
+          #neighbors.choices.btn-group-vertical(role='group')
+            button.btn.btn-default(type='button') OVER HERE
+            button.btn.btn-default(type='button') OVER THERE
+            button.btn.btn-default(type='button') EVERYWHERE
 
     // jQuery
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')

@@ -106,25 +106,24 @@ function GameHandler() {
           throw err;
         }
 
-        game.state = 'choosing';
+        game.state = 'playing';
 
-        var choices = [];
-        var specialChoices = [];
-
-        for (var i = 1; i <= 5; i++) {
-          if (req.body['choice' + i] && req.body['choice' + i].length > 0) {
-            choices.push(req.body['choice' + i]);
-            specialChoices.push(req.body['choice' + i + 'Special']);
+        var infoHere = req.body.infoHere;
+        var neighbors = [];
+        for (var i = 1; i <= 4; i++) {
+          if (req.body['neighbor' + i] && req.body['neighbor' + i].length > 0) {
+            neighbors.push(req.body['neighbor' + i]);
           }
         }
+        var action = req.body.action;
 
-        var players = game.players;
-        players.forEach(function (p) {
-          p.ready = false;
-          p.choiceLabel = req.body.title;
-          p.choices = p.special ? specialChoices : choices;
-          p.chosenIndex = -1;
-        });
+        var result = game.players.id(req.params.playerID);
+
+        result.ready = false;
+        result.infoHere = infoHere;
+        result.neighbors = neighbors;
+        result.action = action;
+        result.choice = '';
 
         game.save(function (err) {
           if (err) {
@@ -145,12 +144,12 @@ function GameHandler() {
           throw err;
         }
 
-        game.players.unshift({
+        game.players.push({
           name: 'waiting...',
           ready: false
         });
 
-        var result = game.players[0]._id;
+        var result = game.players[game.players.length - 1]._id;
 
         game.save(function (err) {
           if (err) {
@@ -200,21 +199,28 @@ function GameHandler() {
         }
 
         var result = game.players.id(req.params.playerID);
-        if (req.body.name) {
-          result.name = req.body.name;
-        }
-        if (req.body.ready) {
-          result.ready = req.body.ready;
-        }
-        if (req.body.chosenIndex) {
-          result.chosenIndex = req.body.chosenIndex;
-        }
+        var legitParams = ['name', 'ready', 'choice'];
+        var unsafeParams = [
+          'saboteur',
+          'role'
+        ];
+
+        legitParams.forEach(function (p) {
+          if (req.body[p]) {
+            result[p] = req.body[p];
+          }
+        });
+
         // HORRIBLE SECURITY ALERT
-        if (req.body.special) {
-          result.special = req.body.special;
-        }
-        if (req.body.role) {
-          result.role = req.body.role;
+        unsafeParams.forEach(function (p) {
+          if (req.body[p]) {
+            result[p] = req.body[p];
+          }
+        });
+
+        // Horrible data interchange format alert
+        if (req.body.saboteur) {
+          result.saboteur = req.body.saboteur === 'true';
         }
 
         game.save(function (err) {

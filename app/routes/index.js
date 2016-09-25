@@ -39,7 +39,7 @@ module.exports = function (app) {
     .post(bodyParser.urlencoded({extended: false}),
       gameHandler.editGame);
 
-  app.route('/game/:shortCode/choice')
+  app.route('/game/:shortCode/choice/:playerID')
     .post(bodyParser.json(), gameHandler.offerChoice);
 
   app.route('/game/:shortCode/players/new')

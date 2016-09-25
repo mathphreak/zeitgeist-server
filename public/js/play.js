@@ -5,8 +5,6 @@ var $ = window.$;
 
 var API_BASE = 'http://' + window.location.host;
 
-var SHUFFLE = [];
-
 function makeNewPlayer(shortCode) {
   return $.ajax({
     method: 'POST',
@@ -41,8 +39,11 @@ function handlePlayerInfo(data) {
   }
   if (player.role) {
     $('#role').text(player.role);
-  } else if (player.special) {
-    $('#role').text('special');
+  }
+  if (player.saboteur) {
+    $('#saboteur').text('are');
+  } else {
+    $('#saboteur').text('are not');
   }
   if ($('#lobby').is(':visible')) {
     $('#ready span').text(player.ready ? 'Ready' : 'Not Ready');
@@ -60,27 +61,21 @@ function handlePlayerInfo(data) {
       $('#lobby form button').hide();
     }
   }
-  if ($('#choosing').is(':visible')) {
-    if (SHUFFLE.length === 0) {
-      SHUFFLE = window._.shuffle([0, 1, 2, 3, 4]);
-    }
-    $('.choice-label').text(player.choiceLabel);
+  if ($('#playing').is(':visible')) {
+    $('#infoHere').text(player.infoHere);
+    $('#action').text(player.action);
 
     var sampleButton = '<button class="btn btn-default" type="button"></button>';
-    $('#choosing .choices').empty();
-    var choices = [undefined, undefined, undefined, undefined, undefined];
-    player.choices.forEach(function (c, i) {
-      var el = $(sampleButton).text(c).data('index', i);
-      if (i === player.chosenIndex) {
+    $('#neighbors').empty();
+    player.choices.forEach(function (c) {
+      var el = $(sampleButton).text(c);
+      if (c === player.choice) {
         el.addClass('btn-primary');
       } else {
         el.removeClass('btn-primary');
       }
-      choices[SHUFFLE[i]] = el;
+      $('#neighbors').append(el);
     });
-    $('#choosing .choices').append(choices[0], choices[1], choices[2], choices[3], choices[4]);
-  } else {
-    SHUFFLE = [];
   }
 }
 
@@ -117,11 +112,11 @@ $(function () {
     return false;
   });
 
-  $(window.document).on('click', '#choosing .btn', function () {
-    var index = $(this).data('index');
+  $(window.document).on('click', '#playing .btn', function () {
+    var choice = $(this).text();
     savePlayer(shortCode, playerID, {
       ready: true,
-      chosenIndex: index
+      choice: choice
     }).then(handlePlayerInfo);
   });
 
